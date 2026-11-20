@@ -90,10 +90,10 @@ Não é necessário instalar pacotes nem executar etapas de *build*.
 
 ```bash
 # 1. Clone o repositório
-git clone [https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git](https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git)
+git clone https://github.com/Tizuey/A3
 
 # 2. Acesse a pasta do projeto
-cd NOME-DO-REPOSITORIO
+cd A3
 
 # 3. Abra o arquivo index.html diretamente no navegador
 ```

@@ -41,21 +41,46 @@ Após um piloto terceirizado falhar no primeiro dia real de operação (abertura
 ## 🏗️ 3. Arquitetura e Decisões Técnicas Principais
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 55, 'rankSpacing': 75}}}%%
 flowchart TB
-    C["Cidadão\n(Web / Mobile sem e-mail)"]
-    A["Agente de Saúde /\nRecepcionista da UBS"]
+    subgraph USUARIOS ["Usuários Finais"]
+        direction LR
+        C["<b>Cidadão</b><br/>Paciente de Vale Verde<br/><i>Acesso Web / Mobile</i>"]
+        A["<b>Agente de Saúde / Recepcionista</b><br/>Profissional da UBS<br/><i>Agendamento assistido e conferência</i>"]
+    end
 
-    CF["Sistema Consulta Fácil\n(Monólito Modular — Vale Verde)"]
+    subgraph OPERACAO ["Operação Técnica"]
+        TI["<b>Equipe de TI (Infra e Suporte)</b><br/>Operação da Prefeitura<br/><i>Monitoramento, suporte e ajustes</i>"]
+    end
 
-    AUTH["Serviço de Autenticação\n(CPF / Cartão SUS / OTP)"]
-    SIGA["SIGA-Saúde (Legado)\n(PHP 2012, Banco Único, sem API)"]
-    SMS["Provedor de SMS / WhatsApp\n(Serviço Externo)"]
+    CF["<b>Sistema Consulta Fácil</b><br/>Monólito Modular — Prefeitura de Vale Verde<br/><i>Agendamento, remarcação, cancelamento e fila de espera</i>"]
 
-    C -->|"Agenda, remarca, cancela\ne consulta fila (HTTPS)"| CF
-    A -->|"Agendamento assistido\ne conferência (HTTPS)"| CF
-    CF -->|"Valida identidade\n(HTTPS)"| AUTH
-    CF -->|"Lê/grava agendas via\nAdapter + Fila (SQL isolado)"| SIGA
-    CF -.->|"Envia lembretes assíncronos\n(Fila + Retry + Circuit Breaker)"| SMS
+    subgraph EXTERNOS ["Serviços e Sistemas Externos"]
+        direction LR
+        AUTH["<b>Serviço de Autenticação</b><br/>Validação de CPF / Cartão SUS<br/><i>e confirmação por celular (OTP)</i>"]
+        SIGA["<b>SIGA-Saúde (Legado)</b><br/>Desktop PHP 2012<br/><i>Banco único, sem API</i>"]
+        SMS["<b>Provedor de SMS / WhatsApp</b><br/>Disparo de lembretes<br/><i>Dados mínimos (LGPD)</i>"]
+    end
+
+    C -->|"Agenda, remarca, cancela<br/>e consulta fila (HTTPS)"| CF
+    A -->|"Agendamento assistido<br/>e conferência local (HTTPS)"| CF
+    TI -->|"Monitora falhas, presta suporte<br/>e gerencia feature flags (HTTPS)"| CF
+
+    CF -->|"Autentica cidadão<br/>e agente (HTTPS)"| AUTH
+    CF -->|"Sincroniza agendas via<br/>Adapter (SQL isolado)"| SIGA
+    CF -.->|"Envia lembretes assíncronos<br/>(Fila + Timeout + Retry + Circuit Breaker)"| SMS
+
+    classDef user fill:#eff6ff,stroke:#1d4ed8,stroke-width:2px,color:#1e3a8a
+    classDef ops fill:#ecfdf5,stroke:#047857,stroke-width:2px,color:#064e3b
+    classDef core fill:#0f766e,stroke:#115e59,stroke-width:3px,color:#ffffff
+    classDef ext fill:#f8fafc,stroke:#475569,stroke-width:2px,color:#0f172a
+    classDef legacy fill:#fef3c7,stroke:#b45309,stroke-width:2px,color:#78350f
+
+    class C,A user
+    class TI ops
+    class CF core
+    class AUTH,SMS ext
+    class SIGA legacy
 ```
 
 - **Estilo Arquitetural (ADR-001):** **Monólito Modular** (domínios de Agendamento, Notificação e Integração SIGA isolados internamente), priorizado sobre microsserviços pela coerência com a equipe de 5 pessoas (2 devs) e o prazo de 3 meses.

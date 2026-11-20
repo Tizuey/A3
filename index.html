@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="font-size: 18px;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta Fácil — Prefeitura de Vale Verde</title>
+
+  <!-- Fonte Inter para excelente legibilidade em telas móveis e desktop -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Estilos específicos para Acessibilidade (WCAG 2.2), Alto Contraste e Impressão -->
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Foco visível reforçado conforme WCAG 2.2 (SC 2.4.11 / 2.4.13) */
+    *:focus-visible {
+      outline: 3px solid #0f766e !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Transição suave entre telas */
+    .screen-fade {
+      animation: fadeIn 0.22s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =====================================================================
+       MODO ALTO CONTRASTE (WCAG 2.2 AAA — Fundo Preto, Texto Branco, Amarelo)
+       ===================================================================== */
+    html.high-contrast body {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    html.high-contrast *:focus-visible {
+      outline: 3px solid #ffea00 !important;
+      outline-offset: 3px !important;
+    }
+
+    html.high-contrast .hc-surface,
+    html.high-contrast .hc-card,
+    html.high-contrast header,
+    html.high-contrast footer,
+    html.high-contrast nav,
+    html.high-contrast .hc-modal-box {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      border-color: #ffea00 !important;
+      box-shadow: none !important;
+    }
+
+    html.high-contrast .hc-soft-box {
+      background-color: #111111 !important;
+      color: #ffffff !important;
+      border: 2px solid #ffea00 !important;
+    }
+
+    html.high-contrast .hc-text-muted {
+      color: #f3f4f6 !important;
+    }
+
+    html.high-contrast .hc-accent-text {
+      color: #ffea00 !important;
+    }
+
+    html.high-contrast .hc-btn-primary {
+      background-color: #ffea00 !important;
+      color: #000000 !important;
+      border: 2px solid #ffea00 !important;
+      font-weight: 800 !important;
+    }
+
+    html.high-contrast .hc-btn-primary:hover {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
+    }
+
+    html.high-contrast .hc-btn-secondary {
+      background-color: #000000 !important;
+      color: #ffea00 !important;
+      border: 2px solid #ffea00 !important;
+      font-weight: 700 !important;
+    }
+
+    html.high-contrast .hc-btn-secondary:hover {
+      background-color: #ffea00 !important;
+      color: #000000 !important;
+    }
+
+    html.high-contrast .hc-btn-danger {
+      background-color: #000000 !important;
+      color: #ffea00 !important;
+      border: 2px dashed #ffea00 !important;
+      font-weight: 700 !important;
+    }
+
+    html.high-contrast .hc-input {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      border: 2px solid #ffea00 !important;
+    }
+
+    html.high-contrast .hc-input::placeholder {
+      color: #d1d5db !important;
+    }
+
+    html.high-contrast .hc-selectable {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      border: 2px solid #ffffff !important;
+    }
+
+    html.high-contrast .hc-selectable[aria-pressed="true"],
+    html.high-contrast .hc-selectable.is-selected {
+      background-color: #ffea00 !important;
+      color: #000000 !important;
+      border: 3px solid #ffffff !important;
+    }
+
+    html.high-contrast .hc-selectable[aria-pressed="true"] *,
+    html.high-contrast .hc-selectable.is-selected * {
+      color: #000000 !important;
+    }
+
+    html.high-contrast .hc-badge {
+      background-color: #ffea00 !important;
+      color: #000000 !important;
+      border: 1px solid #000000 !important;
+      font-weight: 800 !important;
+    }
+
+    html.high-contrast .hc-progress-track {
+      background-color: #262626 !important;
+      border: 1px solid #ffea00 !important;
+    }
+
+    html.high-contrast .hc-progress-fill {
+      background-color: #ffea00 !important;
+    }
+
+    html.high-contrast .hc-demo-btn-active {
+      background-color: #ffea00 !important;
+      color: #000000 !important;
+      border-color: #ffea00 !important;
+    }
+
+    /* =====================================================================
+       ESTILO DE IMPRESSÃO LIMPO PARA O COMPROVANTE
+       ===================================================================== */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      main {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .print-clean {
+        box-shadow: none !important;
+        border: 2px solid #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col pb-28">
+
+  <!-- =======================================================================
+       BARRA FIXA DE ACESSIBILIDADE (TOPO — WCAG 2.2)
+       ======================================================================= -->
+  <header class="no-print sticky top-0 z-40 bg-teal-900 text-white border-b border-teal-950 shadow-sm">
+    <div class="max-w-[460px] mx-auto px-3 py-2 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-tight">
+        <svg class="w-5 h-5 shrink-0 hc-accent-text text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM6 9.5h12m-8 0l-1 9.5m6-9.5l1 9.5m-4-5.5v5.5" />
+        </svg>
+        <span>Acessibilidade</span>
+      </div>
+
+      <div class="flex items-center gap-1.5" role="group" aria-label="Controles de acessibilidade">
+        <button
+          id="btn-font-dec"
+          type="button"
+          onclick="adjustFontSize(-2)"
+          class="hc-btn-secondary min-h-[40px] min-w-[44px] px-2.5 rounded-lg bg-teal-800 hover:bg-teal-700 border border-teal-600 text-white font-bold text-sm transition"
+          aria-label="Diminuir tamanho da letra"
+          title="Diminuir letra"
+        >A-</button>
+
+        <button
+          id="btn-font-inc"
+          type="button"
+          onclick="adjustFontSize(2)"
+          class="hc-btn-secondary min-h-[40px] min-w-[44px] px-2.5 rounded-lg bg-teal-800 hover:bg-teal-700 border border-teal-600 text-white font-bold text-sm transition"
+          aria-label="Aumentar tamanho da letra"
+          title="Aumentar letra"
+        >A+</button>
+
+        <button
+          id="btn-high-contrast"
+          type="button"
+          onclick="toggleHighContrast()"
+          aria-pressed="false"
+          class="hc-btn-secondary min-h-[40px] px-3 rounded-lg bg-white text-teal-950 hover:bg-teal-50 font-bold text-xs sm:text-sm flex items-center gap-1.5 transition"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 2a6 6 0 010 12V4z" />
+          </svg>
+          <span>Alto Contraste</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       CONTAINER PRINCIPAL MOBILE-FIRST (MAX-WIDTH 460PX)
+       ======================================================================= -->
+  <main class="w-full max-w-[460px] mx-auto px-3 pt-4 pb-6 flex-1">
+
+    <!-- Identidade institucional da Prefeitura de Vale Verde -->
+    <div class="hc-surface bg-gradient-to-r from-teal-700 to-emerald-700 text-white rounded-2xl p-4 mb-4 shadow-md border border-teal-800 print-clean">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center shrink-0">
+          <!-- Cruz de Saúde SVG -->
+          <svg class="w-7 h-7 text-white hc-accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wider font-semibold text-teal-100 hc-accent-text">Prefeitura de Vale Verde • SUS</p>
+          <h1 class="text-xl font-extrabold leading-tight">Consulta Fácil</h1>
+          <p class="text-xs text-teal-50 hc-text-muted mt-0.5">Agendamento rápido nas UBS — sem fila de madrugada</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão principal onde cada etapa é exibida -->
+    <section
+      class="hc-card bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden print-clean"
+      aria-live="polite"
+    >
+      <!-- Barra de progresso no topo do cartão -->
+      <div id="progress-header" class="no-print px-5 pt-4 pb-3 border-b border-slate-100 hc-surface">
+        <div class="flex items-center justify-between text-sm font-bold mb-2">
+          <span id="progress-label" class="text-teal-800 hc-accent-text">Passo 1 de 5</span>
+          <span id="progress-step-name" class="text-slate-600 hc-text-muted font-medium">Identificação</span>
+        </div>
+        <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden hc-progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress-bar-wrap">
+          <div id="progress-fill" class="h-full bg-teal-600 rounded-full transition-all duration-300 hc-progress-fill" style="width: 20%;"></div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TELA 1 — ENTRAR (SEM E-MAIL OBRIGATÓRIO + MODO AGENTE DE SAÚDE)
+           =================================================================== -->
+      <div id="screen-1" class="screen-fade p-5 space-y-4">
+        <div>
+          <h2 id="title-screen-1" tabindex="-1" class="text-xl font-extrabold text-slate-900 leading-snug">
+            Vamos começar seu agendamento
+          </h2>
+          <p class="text-sm text-slate-600 hc-text-muted mt-1">
+            Informe seus dados abaixo para consultar as vagas disponíveis.
+          </p>
+        </div>
+
+        <!-- Destaque amigável: Sem e-mail obrigatório -->
+        <div class="hc-soft-box bg-emerald-50 border-2 border-emerald-200 rounded-xl p-3.5 flex items-start gap-3">
+          <svg class="w-6 h-6 text-emerald-700 hc-accent-text shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div>
+            <p class="font-bold text-emerald-950 text-sm leading-snug">Não precisa ter e-mail para agendar</p>
+            <p class="text-xs text-emerald-900 hc-text-muted mt-0.5">Basta usar seu CPF ou Cartão SUS e um número de celular.</p>
+          </div>
+        </div>
+
+        <!-- Alternador de Perfil: Paciente vs Agente de Saúde -->
+        <div>
+          <span class="block text-sm font-bold text-slate-800 mb-2">Quem está fazendo o agendamento?</span>
+          <div class="grid grid-cols-1 gap-2" role="group" aria-label="Tipo de usuário">
+            <button
+              id="btn-role-patient"
+              type="button"
+              onclick="setUserRole('paciente')"
+              aria-pressed="true"
+              class="hc-selectable is-selected min-h-[52px] px-4 py-3 rounded-xl border-2 border-teal-700 bg-teal-50 text-teal-950 font-bold text-left flex items-center gap-3 transition"
+            >
+              <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.118a7.5 7.5 0 0115 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.5-1.632z" />
+              </svg>
+              <span>Sou Paciente</span>
+            </button>
+
+            <button
+              id="btn-role-agent"
+              type="button"
+              onclick="setUserRole('agente')"
+              aria-pressed="false"
+              class="hc-selectable min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white text-slate-800 font-semibold text-left flex items-center gap-3 transition hover:border-teal-500"
+            >
+              <svg class="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+              </svg>
+              <span>Sou Agente de Saúde <span class="block text-xs font-normal opacity-90">(agendar para um paciente)</span></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bloco condicional: Modo Agente de Saúde (Atendimento Assistido) -->
+        <div id="agent-section" class="hidden space-y-3">
+          <div class="hc-soft-box bg-blue-50 border-2 border-blue-300 rounded-xl p-3.5 flex items-start gap-3">
+            <svg class="w-6 h-6 text-blue-700 hc-accent-text shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+            <div>
+              <p class="font-bold text-blue-950 text-sm">Atendimento Assistido</p>
+              <p class="text-xs text-blue-900 hc-text-muted mt-0.5">Você está agendando em nome de um cidadão. A ação será registrada para segurança (LGPD).</p>
+            </div>
+          </div>
+
+          <div>
+            <label for="input-agent" class="block text-sm font-bold text-slate-800 mb-1.5">
+              Nome ou Matrícula do Agente de Saúde
+            </label>
+            <input
+              id="input-agent"
+              type="text"
+              placeholder="Ex.: ACS Carlos Mendes — Mat. 4412"
+              class="hc-input w-full min-h-[52px] px-4 rounded-xl border-2 border-slate-300 text-base focus:border-teal-700 transition"
+            />
+          </div>
+        </div>
+
+        <!-- Formulário de Dados do Paciente -->
+        <div class="space-y-3.5 pt-1">
+          <div>
+            <label for="input-name" class="block text-sm font-bold text-slate-800 mb-1.5">
+              Nome completo do paciente
+            </label>
+            <input
+              id="input-name"
+              type="text"
+              autocomplete="name"
+              placeholder="Ex.: Maria de Lourdes Silva"
+              class="hc-input w-full min-h-[52px] px-4 rounded-xl border-2 border-slate-300 text-base focus:border-teal-700 transition"
+            />
+          </div>
+
+          <div>
+            <label for="input-doc" class="block text-sm font-bold text-slate-800 mb-1.5">
+              CPF ou Cartão SUS
+            </label>
+            <input
+              id="input-doc"
+              type="text"
+              inputmode="numeric"
+              placeholder="000.000.000-00 ou 15 números do SUS"
+              oninput="formatDocInput(this)"
+              class="hc-input w-full min-h-[52px] px-4 rounded-xl border-2 border-slate-300 text-base focus:border-teal-700 transition"
+            />
+            <p class="text-xs text-slate-600 hc-text-muted mt-1">Digite somente os números (CPF com 11 dígitos ou Cartão SUS com 15).</p>
+          </div>
+
+          <div>
+            <label for="input-phone" class="block text-sm font-bold text-slate-800 mb-1.5">
+              Celular com DDD (para lembrete)
+            </label>
+            <input
+              id="input-phone"
+              type="tel"
+              inputmode="tel"
+              placeholder="(71) 99999-8888"
+              oninput="formatPhoneInput(this)"
+              class="hc-input w-full min-h-[52px] px-4 rounded-xl border-2 border-slate-300 text-base focus:border-teal-700 transition"
+            />
+            <p class="text-xs text-slate-600 hc-text-muted mt-1">Enviaremos o lembrete gratuito por SMS ou WhatsApp.</p>
+          </div>
+        </div>
+
+        <!-- Mensagem de erro inline acessível -->
+        <div id="error-screen-1" role="alert" class="hidden hc-soft-box bg-red-50 border-2 border-red-300 text-red-900 rounded-xl p-3 text-sm font-semibold"></div>
+
+        <!-- Botão discreto de demonstração rápida -->
+        <button
+          type="button"
+          onclick="fillDonaMariaExample()"
+          class="hc-btn-secondary w-full min-h-[48px] px-4 py-2.5 rounded-xl border-2 border-dashed border-teal-400 bg-teal-50/60 hover:bg-teal-50 text-teal-900 font-semibold text-sm flex items-center justify-center gap-2 transition"
+        >
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+          </svg>
+          <span>Preencher exemplo (Dona Maria, 68 anos)</span>
+        </button>
+
+        <!-- Botão principal Continuar -->
+        <button
+          type="button"
+          onclick="submitScreen1()"
+          class="hc-btn-primary w-full min-h-[56px] px-5 py-3.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-base shadow-md flex items-center justify-center gap-2 transition"
+        >
+          <span>Continuar</span>
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- ===================================================================
+           TELA 2 — ESCOLHER UBS E ESPECIALIDADE
+           =================================================================== -->
+      <div id="screen-2" class="hidden screen-fade p-5 space-y-5">
+        <div>
+          <h2 id="title-screen-2" tabindex="-1" class="text-xl font-extrabold text-slate-900 leading-snug">
+            Onde e qual consulta você precisa?
+          </h2>
+          <p class="text-sm text-slate-600 hc-text-muted mt-1">
+            Toque para escolher uma das 3 UBS do piloto e a especialidade.
+          </p>
+        </div>
+
+        <!-- Seleção de UBS -->
+        <div>
+          <h3 class="text-sm font-extrabold uppercase tracking-wide text-teal-800 hc-accent-text mb-2.5">
+            1. Escolha o Posto de Saúde (UBS)
+          </h3>
+          <div id="ubs-list" class="space-y-2.5" role="group" aria-label="Unidades Básicas de Saúde">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+        <!-- Seleção de Especialidade -->
+        <div>
+          <h3 class="text-sm font-extrabold uppercase tracking-wide text-teal-800 hc-accent-text mb-2.5">
+            2. Escolha a Especialidade
+          </h3>
+          <div id="specialty-list" class="space-y-2.5" role="group" aria-label="Especialidades médicas">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+        <!-- Erro inline -->
+        <div id="error-screen-2" role="alert" class="hidden hc-soft-box bg-red-50 border-2 border-red-300 text-red-900 rounded-xl p-3 text-sm font-semibold"></div>
+
+        <!-- Botões de ação -->
+        <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+          <button
+            type="button"
+            onclick="goToScreen('1')"
+            class="hc-btn-secondary min-h-[54px] sm:w-1/3 px-4 py-3 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base transition"
+          >
+            Voltar
+          </button>
+          <button
+            type="button"
+            onclick="submitScreen2()"
+            class="hc-btn-primary min-h-[54px] sm:w-2/3 px-5 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-base shadow-md flex items-center justify-center gap-2 transition"
+          >
+            <span>Ver Horários Disponíveis</span>
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TELA 3 — ESCOLHER HORÁRIO (COM SIMULAÇÃO DA ÚLTIMA VAGA)
+           =================================================================== -->
+      <div id="screen-3" class="hidden screen-fade p-5 space-y-4">
+        <div>
+          <h2 id="title-screen-3" tabindex="-1" class="text-xl font-extrabold text-slate-900 leading-snug">
+            Escolha o melhor horário
+          </h2>
+          <p class="text-sm text-slate-600 hc-text-muted mt-1">
+            Toque em um horário abaixo para continuar.
+          </p>
+        </div>
+
+        <!-- Resumo da escolha atual no topo -->
+        <div class="hc-soft-box bg-teal-50 border border-teal-200 rounded-xl p-3.5 text-sm">
+          <p class="font-bold text-teal-950" id="screen3-ubs-summary">UBS Centro</p>
+          <p class="text-teal-900 hc-text-muted mt-0.5">Especialidade: <strong id="screen3-spec-summary">Pediatria</strong></p>
+        </div>
+
+        <!-- Lista de horários -->
+        <div id="slots-list" class="space-y-3" role="group" aria-label="Horários disponíveis">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- Dica para avaliação / teste da exceção -->
+        <div class="hc-soft-box bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-950">
+          <strong>Dica de teste:</strong> ao escolher o horário com selo <strong>ÚLTIMA VAGA (08:30)</strong>, o protótipo simula outra pessoa confirmando no mesmo segundo para demonstrar a proteção contra vaga duplicada.
+        </div>
+
+        <!-- Erro inline -->
+        <div id="error-screen-3" role="alert" class="hidden hc-soft-box bg-red-50 border-2 border-red-300 text-red-900 rounded-xl p-3 text-sm font-semibold"></div>
+
+        <!-- Botões de ação -->
+        <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+          <button
+            type="button"
+            onclick="goToScreen('2')"
+            class="hc-btn-secondary min-h-[54px] sm:w-1/3 px-4 py-3 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base transition"
+          >
+            Voltar
+          </button>
+          <button
+            id="btn-advance-slot"
+            type="button"
+            onclick="submitScreen3()"
+            class="hc-btn-primary min-h-[54px] sm:w-2/3 px-5 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-base shadow-md flex items-center justify-center gap-2 transition"
+          >
+            <span>Continuar com Horário</span>
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TELA DE EXCEÇÃO — VAGA RECÉM-OCUPADA (PROTEÇÃO CONTRA VAGA DUPLICADA)
+           =================================================================== -->
+      <div id="screen-exception" class="hidden screen-fade p-5 space-y-4">
+        <!-- Cabeçalho amigável de alerta -->
+        <div class="hc-soft-box bg-amber-50 border-2 border-amber-400 rounded-2xl p-4 text-center space-y-2">
+          <div class="w-14 h-14 mx-auto rounded-full bg-amber-100 border-2 border-amber-400 flex items-center justify-center">
+            <svg class="w-8 h-8 text-amber-700 hc-accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+          </div>
+          <h2 id="title-screen-exception" tabindex="-1" class="text-xl font-extrabold text-amber-950 leading-snug">
+            A vaga das 08:30 acabou de ser ocupada
+          </h2>
+          <p class="text-sm text-amber-950 hc-text-muted leading-relaxed">
+            Outro paciente confirmou este horário segundos antes. Não se preocupe: suas escolhas foram mantidas e evitamos agendamento duplicado.
+          </p>
+        </div>
+
+        <!-- Mantém escolhas visíveis -->
+        <div class="hc-soft-box bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm">
+          <span class="font-bold text-slate-800">Suas escolhas mantidas:</span>
+          <span class="block text-slate-700 hc-text-muted mt-0.5" id="exception-kept-summary">UBS Centro • Pediatria</span>
+        </div>
+
+        <!-- Opções rápidas de horários alternativos -->
+        <div id="exception-alternatives-box" class="space-y-2.5">
+          <h3 class="text-base font-extrabold text-slate-900">
+            Escolha outro horário disponível agora:
+          </h3>
+
+          <button
+            type="button"
+            onclick="selectAlternativeSlot('slot-2')"
+            class="hc-btn-primary w-full min-h-[60px] px-4 py-3.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-left flex items-center justify-between gap-3 shadow-sm transition"
+          >
+            <div>
+              <span class="block font-extrabold text-base">Amanhã, 09:00</span>
+              <span class="block text-sm opacity-95">Dra. Camila Souza</span>
+            </div>
+            <span class="hc-badge px-3 py-1 rounded-lg bg-white/20 text-xs font-bold shrink-0">Escolher →</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="selectAlternativeSlot('slot-3')"
+            class="hc-btn-primary w-full min-h-[60px] px-4 py-3.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-left flex items-center justify-between gap-3 shadow-sm transition"
+          >
+            <div>
+              <span class="block font-extrabold text-base">Amanhã, 10:30</span>
+              <span class="block text-sm opacity-95">Dr. Roberto Lima</span>
+            </div>
+            <span class="hc-badge px-3 py-1 rounded-lg bg-white/20 text-xs font-bold shrink-0">Escolher →</span>
+          </button>
+        </div>
+
+        <!-- Confirmação da Fila de Espera (exibida ao clicar no botão abaixo) -->
+        <div id="waitlist-confirmation" class="hidden hc-soft-box bg-blue-50 border-2 border-blue-400 rounded-2xl p-4 space-y-2.5">
+          <div class="flex items-start gap-2.5">
+            <svg class="w-6 h-6 text-blue-700 hc-accent-text shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <h3 class="font-extrabold text-blue-950 text-base">Você entrou na Fila de Espera!</h3>
+              <p class="text-sm text-blue-900 hc-text-muted mt-1">
+                Sua posição estimada: <strong class="text-base">2º lugar</strong> para <span id="waitlist-spec-text">Pediatria</span>.
+              </p>
+              <p class="text-xs text-blue-900 hc-text-muted mt-1">
+                Protocolo da fila: <strong>#FE-2026-3104</strong>. Se alguém cancelar, enviaremos um aviso gratuito por SMS para <strong id="waitlist-phone-text"></strong>.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onclick="goToScreen('3')"
+            class="hc-btn-secondary w-full min-h-[48px] px-4 py-2.5 rounded-xl border-2 border-blue-600 bg-white text-blue-900 font-bold text-sm transition"
+          >
+            Voltar para ver outros horários
+          </button>
+        </div>
+
+        <!-- Botão alternativo: Fila de Espera -->
+        <div id="waitlist-action-box" class="pt-1 space-y-2.5">
+          <button
+            type="button"
+            onclick="enterWaitlist()"
+            class="hc-btn-secondary w-full min-h-[54px] px-4 py-3 rounded-xl border-2 border-teal-700 bg-white hover:bg-teal-50 text-teal-900 font-bold text-base flex items-center justify-center gap-2 transition"
+          >
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+            <span>Entrar na Fila de Espera (aviso por SMS)</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="goToScreen('3')"
+            class="hc-btn-secondary w-full min-h-[48px] px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-sm transition"
+          >
+            Voltar para todos os horários
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TELA 4 — CONFIRMAR AGENDAMENTO
+           =================================================================== -->
+      <div id="screen-4" class="hidden screen-fade p-5 space-y-4">
+        <div>
+          <h2 id="title-screen-4" tabindex="-1" class="text-xl font-extrabold text-slate-900 leading-snug">
+            Confira os dados da sua consulta
+          </h2>
+          <p class="text-sm text-slate-600 hc-text-muted mt-1">
+            Veja se está tudo certo antes de confirmar.
+          </p>
+        </div>
+
+        <!-- Cartão de resumo legível -->
+        <div class="hc-soft-box bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 space-y-3 text-sm">
+          <div id="confirm-agent-badge" class="hidden pb-2.5 border-b border-slate-200">
+            <span class="hc-badge inline-block px-2.5 py-1 rounded-md bg-blue-100 text-blue-900 text-xs font-extrabold uppercase">Atendimento Assistido</span>
+            <p class="text-xs text-slate-700 hc-text-muted mt-1">Agendado por: <strong id="confirm-agent-name"></strong></p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2.5">
+            <div>
+              <span class="block text-xs font-bold uppercase text-slate-500 hc-text-muted">Paciente</span>
+              <span class="font-extrabold text-base text-slate-900" id="confirm-patient"></span>
+            </div>
+            <div>
+              <span class="block text-xs font-bold uppercase text-slate-500 hc-text-muted">CPF / Cartão SUS</span>
+              <span class="font-semibold text-slate-800" id="confirm-doc"></span>
+            </div>
+            <div class="pt-2 border-t border-slate-200">
+              <span class="block text-xs font-bold uppercase text-slate-500 hc-text-muted">Posto de Saúde (UBS)</span>
+              <span class="font-bold text-slate-900" id="confirm-ubs"></span>
+            </div>
+            <div>
+              <span class="block text-xs font-bold uppercase text-slate-500 hc-text-muted">Especialidade e Profissional</span>
+              <span class="font-bold text-slate-900" id="confirm-spec-doc"></span>
+            </div>
+            <div class="pt-2 border-t border-slate-200">
+              <span class="block text-xs font-bold uppercase text-slate-500 hc-text-muted">Data e Horário</span>
+              <span class="font-extrabold text-lg text-teal-800 hc-accent-text" id="confirm-datetime"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seleção de lembrete gratuito -->
+        <div class="space-y-2">
+          <span class="block text-sm font-extrabold text-slate-900">
+            Como prefere receber o lembrete gratuito (24h antes)?
+          </span>
+
+          <label class="hc-selectable flex items-center gap-3 min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white cursor-pointer">
+            <input id="chk-sms" type="checkbox" checked class="w-6 h-6 accent-teal-700 rounded shrink-0" onchange="updateReminderPreference()" />
+            <span class="font-semibold text-sm text-slate-900">Receber por SMS no celular</span>
+          </label>
+
+          <label class="hc-selectable flex items-center gap-3 min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white cursor-pointer">
+            <input id="chk-whatsapp" type="checkbox" checked class="w-6 h-6 accent-teal-700 rounded shrink-0" onchange="updateReminderPreference()" />
+            <span class="font-semibold text-sm text-slate-900">Receber por WhatsApp</span>
+          </label>
+        </div>
+
+        <!-- Quadro discreto de privacidade LGPD -->
+        <div class="hc-soft-box bg-slate-100 border border-slate-300 rounded-xl p-3.5 flex items-start gap-2.5">
+          <svg class="w-5 h-5 text-teal-800 hc-accent-text shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+          <p class="text-xs text-slate-700 hc-text-muted leading-relaxed">
+            <strong>Privacidade garantida (LGPD):</strong> o lembrete enviado por SMS não mostra o nome da especialidade médica, apenas a data, a hora e a UBS.
+          </p>
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+          <button
+            type="button"
+            onclick="goToScreen('3')"
+            class="hc-btn-secondary min-h-[54px] sm:w-1/3 px-4 py-3 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base transition"
+          >
+            Voltar
+          </button>
+          <button
+            type="button"
+            onclick="confirmAppointment()"
+            class="hc-btn-primary min-h-[54px] sm:w-2/3 px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-base shadow-md flex items-center justify-center gap-2 transition"
+          >
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span>Confirmar Consulta</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TELA 5 — COMPROVANTE DE AGENDAMENTO (COM CANCELAMENTO IDEMPOTENTE)
+           =================================================================== -->
+      <div id="screen-5" class="hidden screen-fade p-5 space-y-4">
+        <!-- Estado ATIVO: Consulta Confirmada -->
+        <div id="receipt-status-active" class="text-center space-y-2">
+          <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center">
+            <svg class="w-9 h-9 text-emerald-700 hc-accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <h2 id="title-screen-5" tabindex="-1" class="text-2xl font-extrabold text-emerald-900 hc-accent-text">
+            Consulta Agendada!
+          </h2>
+          <div class="hc-soft-box inline-block bg-emerald-50 border-2 border-emerald-300 rounded-xl px-5 py-2.5 mt-1">
+            <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 hc-text-muted">Número do Protocolo</span>
+            <span id="receipt-protocol" class="text-2xl font-black tracking-wider text-emerald-950 hc-accent-text">#CF-2026-8492</span>
+          </div>
+        </div>
+
+        <!-- Estado CANCELADO: Proteção contra cancelamento repetido -->
+        <div id="receipt-status-cancelled" class="hidden hc-soft-box bg-rose-50 border-2 border-rose-400 rounded-2xl p-4 text-center space-y-2">
+          <div class="w-14 h-14 mx-auto rounded-full bg-rose-100 border-2 border-rose-500 flex items-center justify-center">
+            <svg class="w-8 h-8 text-rose-700 hc-accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h2 id="title-screen-5-cancelled" tabindex="-1" class="text-xl font-extrabold text-rose-950">
+            Consulta já cancelada e vaga liberada para a fila de espera
+          </h2>
+          <p class="text-sm text-rose-900 hc-text-muted">
+            Protocolo <strong id="cancelled-protocol">#CF-2026-8492</strong> encerrado com segurança. A vaga foi devolvida uma única vez ao próximo paciente da fila.
+          </p>
+          <p id="idempotent-notice" class="hidden text-xs font-bold bg-white/80 text-rose-900 border border-rose-300 rounded-lg p-2">
+            Proteção ativa: este cancelamento já havia sido processado anteriormente. Nenhuma ação duplicada foi executada.
+          </p>
+        </div>
+
+        <!-- Aviso de resiliência do SMS -->
+        <div id="receipt-resilience-box" class="hc-soft-box bg-teal-50 border-2 border-teal-200 rounded-xl p-3.5 flex items-start gap-2.5">
+          <svg class="w-6 h-6 text-teal-800 hc-accent-text shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+          <p class="text-xs sm:text-sm text-teal-950 hc-text-muted leading-relaxed">
+            <strong>Sua vaga já está garantida no sistema.</strong> O lembrete será enviado por SMS/WhatsApp em instantes — mesmo se houver atraso no SMS, sua consulta continua confirmada.
+          </p>
+        </div>
+
+        <!-- Resumo completo do comprovante -->
+        <div class="hc-soft-box bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 text-sm">
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">Paciente:</span>
+            <strong class="text-right text-slate-900" id="receipt-patient"></strong>
+          </div>
+          <div id="receipt-agent-row" class="hidden flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">Agente de Saúde:</span>
+            <strong class="text-right text-blue-900 hc-accent-text" id="receipt-agent"></strong>
+          </div>
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">CPF / Cartão SUS:</span>
+            <strong class="text-right text-slate-900" id="receipt-doc"></strong>
+          </div>
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">UBS:</span>
+            <strong class="text-right text-slate-900" id="receipt-ubs"></strong>
+          </div>
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">Especialidade:</span>
+            <strong class="text-right text-slate-900" id="receipt-spec"></strong>
+          </div>
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">Profissional:</span>
+            <strong class="text-right text-slate-900" id="receipt-doctor"></strong>
+          </div>
+          <div class="flex justify-between gap-2 pb-2 border-b border-slate-200">
+            <span class="text-slate-600 hc-text-muted">Data e Horário:</span>
+            <strong class="text-right text-teal-800 hc-accent-text" id="receipt-datetime"></strong>
+          </div>
+          <div class="flex justify-between gap-2">
+            <span class="text-slate-600 hc-text-muted">Lembrete:</span>
+            <strong class="text-right text-slate-900" id="receipt-reminders"></strong>
+          </div>
+        </div>
+
+        <!-- Botões de ação do comprovante -->
+        <div class="no-print space-y-2.5 pt-1">
+          <button
+            id="btn-print-receipt"
+            type="button"
+            onclick="printReceipt()"
+            class="hc-btn-primary w-full min-h-[54px] px-4 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-base shadow-md flex items-center justify-center gap-2 transition"
+          >
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5z" />
+            </svg>
+            <span>Imprimir / Salvar Comprovante</span>
+          </button>
+
+          <button
+            id="btn-cancel-appointment"
+            type="button"
+            onclick="openCancelModal()"
+            class="hc-btn-danger w-full min-h-[52px] px-4 py-3 rounded-xl border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-900 font-bold text-base transition"
+          >
+            Cancelar Consulta
+          </button>
+
+          <button
+            type="button"
+            onclick="startNewAppointment()"
+            class="hc-btn-secondary w-full min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base transition"
+          >
+            Fazer Novo Agendamento
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =======================================================================
+       MODAL DE CONFIRMAÇÃO DE CANCELAMENTO (SEM confirm() / COM IDEMPOTÊNCIA)
+       ======================================================================= -->
+  <div
+    id="cancel-modal"
+    class="no-print hidden fixed inset-0 z-50 bg-black/65 flex items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cancel-modal-title"
+  >
+    <div class="hc-modal-box bg-white rounded-2xl max-w-[420px] w-full p-5 shadow-2xl border-2 border-slate-200 space-y-4">
+      <h3 id="cancel-modal-title" class="text-xl font-extrabold text-slate-900">
+        Deseja cancelar esta consulta?
+      </h3>
+      <p class="text-sm text-slate-700 hc-text-muted leading-relaxed">
+        Ao cancelar, sua vaga será liberada imediatamente para outro paciente na fila de espera da UBS.
+      </p>
+      <div class="flex flex-col gap-2.5 pt-1">
+        <button
+          id="btn-confirm-cancel"
+          type="button"
+          onclick="executeCancelAppointment()"
+          class="hc-btn-primary w-full min-h-[52px] px-4 py-3 rounded-xl bg-rose-700 hover:bg-rose-800 text-white font-extrabold text-base transition"
+        >
+          Sim, cancelar e liberar vaga
+        </button>
+        <button
+          type="button"
+          onclick="closeCancelModal()"
+          class="hc-btn-secondary w-full min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base transition"
+        >
+          Não, manter minha consulta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       BARRA DE APRESENTAÇÃO (RODAPÉ FIXO DISCRETO PARA TESTES E PRINTS)
+       ======================================================================= -->
+  <footer class="no-print fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 text-white border-t border-slate-700 backdrop-blur-sm">
+    <div class="max-w-[760px] mx-auto px-3 py-2">
+      <p class="text-[11px] font-semibold text-slate-300 hc-accent-text mb-1.5 text-center sm:text-left">
+        Atalho do Protótipo (para testes e prints):
+      </p>
+      <nav class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5" aria-label="Atalhos das telas do protótipo">
+        <button type="button" data-demo-screen="1" onclick="jumpToScreen('1')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold transition">1. Entrar</button>
+        <button type="button" data-demo-screen="2" onclick="jumpToScreen('2')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold transition">2. UBS</button>
+        <button type="button" data-demo-screen="3" onclick="jumpToScreen('3')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold transition">3. Horários</button>
+        <button type="button" data-demo-screen="exception" onclick="jumpToScreen('exception')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-amber-700 hover:bg-amber-600 border border-amber-500 text-xs font-bold transition">Exceção</button>
+        <button type="button" data-demo-screen="4" onclick="jumpToScreen('4')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold transition">4. Confirmar</button>
+        <button type="button" data-demo-screen="5" onclick="jumpToScreen('5')" class="demo-nav-btn min-h-[34px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold transition">5. Comprovante</button>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- =======================================================================
+       LÓGICA INTERATIVA DO PROTÓTIPO (ESTADO, VALIDAÇÃO E ACESSIBILIDADE)
+       ======================================================================= -->
+  <script>
+    // Dados estáticos do piloto nas 3 UBS de Vale Verde
+    const UBS_OPTIONS = [
+      { id: 'ubs-centro', name: 'UBS Centro', address: 'Av. Principal, 120', spots: '14 vagas esta semana' },
+      { id: 'ubs-jardim', name: 'UBS Jardim das Flores', address: 'Rua das Acácias, 45', spots: '9 vagas esta semana' },
+      { id: 'ubs-vilanova', name: 'UBS Vila Nova', address: 'Rua São Jorge, 310', spots: '11 vagas esta semana' },
+    ];
+
+    const SPECIALTY_OPTIONS = [
+      { id: 'pediatria', name: 'Pediatria', badge: 'Restam poucas vagas', urgent: true },
+      { id: 'clinico', name: 'Clínico Geral', badge: 'Vagas disponíveis', urgent: false },
+      { id: 'enfermagem', name: 'Enfermagem / Pré-natal', badge: 'Vagas disponíveis', urgent: false },
+      { id: 'odontologia', name: 'Odontologia', badge: 'Vagas disponíveis', urgent: false },
+    ];
+
+    const SLOT_OPTIONS = [
+      {
+        id: 'slot-1',
+        day: 'Amanhã',
+        time: '08:30',
+        doctor: 'Dra. Camila Souza',
+        isLastSlot: true, // Dispara propositalmente a Tela de Exceção (simulação de concorrência)
+      },
+      {
+        id: 'slot-2',
+        day: 'Amanhã',
+        time: '09:00',
+        doctor: 'Dra. Camila Souza',
+        isLastSlot: false,
+      },
+      {
+        id: 'slot-3',
+        day: 'Amanhã',
+        time: '10:30',
+        doctor: 'Dr. Roberto Lima',
+        isLastSlot: false,
+      },
+      {
+        id: 'slot-4',
+        day: 'Quinta-feira',
+        time: '14:00',
+        doctor: 'Dra. Camila Souza',
+        isLastSlot: false,
+      },
+    ];
+
+    // Estado central da aplicação
+    const appState = {
+      currentScreen: '1',
+      fontSize: 18,
+      highContrast: false,
+      role: 'paciente', // 'paciente' | 'agente'
+      agentName: '',
+      patientName: '',
+      documentNumber: '',
+      phone: '',
+      selectedUbsId: null,
+      selectedSpecialtyId: null,
+      selectedSlotId: null,
+      reminders: { sms: true, whatsapp: true },
+      protocol: '#CF-2026-8492',
+      appointmentCancelled: false,
+      cancelProcessing: false,
+    };
+
+    // Metadados da barra de progresso
+    const PROGRESS_MAP = {
+      '1': { step: 1, label: 'Passo 1 de 5', name: 'Identificação', pct: 20 },
+      '2': { step: 2, label: 'Passo 2 de 5', name: 'UBS e Especialidade', pct: 40 },
+      '3': { step: 3, label: 'Passo 3 de 5', name: 'Escolher Horário', pct: 60 },
+      'exception': { step: 3, label: 'Passo 3 de 5', name: 'Vaga Ocupada — Alternativas', pct: 60 },
+      '4': { step: 4, label: 'Passo 4 de 5', name: 'Confirmar Consulta', pct: 80 },
+      '5': { step: 5, label: 'Passo 5 de 5', name: 'Comprovante', pct: 100 },
+    };
+
+    /**
+     * Inicializa listas dinâmicas ao carregar a página.
+     */
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        renderUbsOptions();
+        renderSpecialtyOptions();
+        renderSlotOptions();
+        updateDemoBarHighlight();
+      } catch (err) {
+        console.error('Erro na inicialização do protótipo:', err);
+      }
+    });
+
+    /**
+     * Ajusta o tamanho da fonte global (em px no elemento <html>, escalando todo o layout em rem).
+     */
+    function adjustFontSize(delta) {
+      try {
+        const nextSize = Math.min(24, Math.max(15, appState.fontSize + delta));
+        appState.fontSize = nextSize;
+        document.documentElement.style.fontSize = nextSize + 'px';
+      } catch (err) {
+        console.error('Erro ao ajustar tamanho da fonte:', err);
+      }
+    }
+
+    /**
+     * Alterna o modo de Alto Contraste (WCAG 2.2 AAA).
+     */
+    function toggleHighContrast() {
+      try {
+        appState.highContrast = !appState.highContrast;
+        document.documentElement.classList.toggle('high-contrast', appState.highContrast);
+        const btn = document.getElementById('btn-high-contrast');
+        if (btn) {
+          btn.setAttribute('aria-pressed', String(appState.highContrast));
+        }
+      } catch (err) {
+        console.error('Erro ao alternar alto contraste:', err);
+      }
+    }
+
+    /**
+     * Alterna entre o perfil de Paciente e o perfil de Agente Comunitário de Saúde.
+     */
+    function setUserRole(role) {
+      appState.role = role;
+      const btnPatient = document.getElementById('btn-role-patient');
+      const btnAgent = document.getElementById('btn-role-agent');
+      const agentSection = document.getElementById('agent-section');
+
+      const isAgent = role === 'agente';
+
+      btnPatient.setAttribute('aria-pressed', String(!isAgent));
+      btnAgent.setAttribute('aria-pressed', String(isAgent));
+
+      // Atualiza estilos visuais dos botões selecionáveis
+      if (isAgent) {
+        btnAgent.className = 'hc-selectable is-selected min-h-[52px] px-4 py-3 rounded-xl border-2 border-teal-700 bg-teal-50 text-teal-950 font-bold text-left flex items-center gap-3 transition';
+        btnPatient.className = 'hc-selectable min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white text-slate-800 font-semibold text-left flex items-center gap-3 transition hover:border-teal-500';
+        agentSection.classList.remove('hidden');
+      } else {
+        btnPatient.className = 'hc-selectable is-selected min-h-[52px] px-4 py-3 rounded-xl border-2 border-teal-700 bg-teal-50 text-teal-950 font-bold text-left flex items-center gap-3 transition';
+        btnAgent.className = 'hc-selectable min-h-[52px] px-4 py-3 rounded-xl border-2 border-slate-300 bg-white text-slate-800 font-semibold text-left flex items-center gap-3 transition hover:border-teal-500';
+        agentSection.classList.add('hidden');
+      }
+    }
+
+    /**
+     * Formata automaticamente CPF (até 11 dígitos) ou Cartão SUS (até 15 dígitos).
+     */
+    function formatDocInput(input) {
+      let digits = input.value.replace(/\D/g, '').slice(0, 15);
+      if (digits.length <= 11) {
+        digits = digits
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      } else {
+        digits = digits.replace(/(\d{3})(\d{4})(\d{4})(\d{0,4})/, '$1 $2 $3 $4').trim();
+      }
+      input.value = digits;
+    }
+
+    /**
+     * Formata automaticamente número de celular brasileiro com DDD.
+     */
+    function formatPhoneInput(input) {
+      let digits = input.value.replace(/\D/g, '').slice(0, 11);
+      if (digits.length > 6) {
+        digits = digits.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+      } else if (digits.length > 2) {
+        digits = digits.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+      }
+      input.value = digits;
+    }
+
+    /**
+     * Preenche dados realistas da Dona Maria (68 anos) para demonstração rápida.
+     */
+    function fillDonaMariaExample() {
+      document.getElementById('input-name').value = 'Maria de Lourdes Silva';
+      document.getElementById('input-doc').value = '214.890.532-04';
+      document.getElementById('input-phone').value = '(71) 99842-6150';
+      if (appState.role === 'agente' && !document.getElementById('input-agent').value.trim()) {
+        document.getElementById('input-agent').value = 'ACS Carlos Mendes — Mat. 4412';
+      }
+      hideError('error-screen-1');
+    }
+
+    /**
+     * Garante que existam dados válidos preenchidos caso o usuário pule direto pelo rodapé de demonstração.
+     */
+    function ensureSampleDataForJump(targetScreen) {
+      const nameEl = document.getElementById('input-name');
+      const docEl = document.getElementById('input-doc');
+      const phoneEl = document.getElementById('input-phone');
+      const agentEl = document.getElementById('input-agent');
+
+      if (!nameEl.value.trim()) nameEl.value = 'Maria de Lourdes Silva';
+      if (!docEl.value.trim()) docEl.value = '214.890.532-04';
+      if (!phoneEl.value.trim()) phoneEl.value = '(71) 99842-6150';
+      if (appState.role === 'agente' && !agentEl.value.trim()) {
+        agentEl.value = 'ACS Carlos Mendes — Mat. 4412';
+      }
+
+      appState.patientName = nameEl.value.trim();
+      appState.documentNumber = docEl.value.trim();
+      appState.phone = phoneEl.value.trim();
+      appState.agentName = agentEl.value.trim();
+
+      if (!appState.selectedUbsId) {
+        appState.selectedUbsId = 'ubs-centro';
+      }
+      if (!appState.selectedSpecialtyId) {
+        appState.selectedSpecialtyId = 'pediatria';
+      }
+      if ((targetScreen === '4' || targetScreen === '5') && (!appState.selectedSlotId || appState.selectedSlotId === 'slot-1')) {
+        appState.selectedSlotId = 'slot-2';
+      }
+      if (targetScreen === 'exception') {
+        appState.selectedSlotId = 'slot-1';
+      }
+
+      renderUbsOptions();
+      renderSpecialtyOptions();
+      renderSlotOptions();
+    }
+
+    /**
+     * Valida e avança da Tela 1 para a Tela 2.
+     */
+    function submitScreen1() {
+      const name = document.getElementById('input-name').value.trim();
+      const doc = document.getElementById('input-doc').value.trim();
+      const phone = document.getElementById('input-phone').value.trim();
+      const agent = document.getElementById('input-agent').value.trim();
+
+      if (appState.role === 'agente' && !agent) {
+        showError('error-screen-1', 'Por favor, informe o nome ou a matrícula do Agente de Saúde.');
+        return;
+      }
+      if (name.length < 3) {
+        showError('error-screen-1', 'Por favor, digite o nome completo do paciente.');
+        return;
+      }
+      if (doc.replace(/\D/g, '').length < 11) {
+        showError('error-screen-1', 'Por favor, informe um CPF (11 números) ou Cartão SUS (15 números).');
+        return;
+      }
+      if (phone.replace(/\D/g, '').length < 10) {
+        showError('error-screen-1', 'Por favor, informe um número de celular com DDD para o lembrete.');
+        return;
+      }
+
+      hideError('error-screen-1');
+      appState.patientName = name;
+      appState.documentNumber = doc;
+      appState.phone = phone;
+      appState.agentName = agent;
+
+      goToScreen('2');
+    }
+
+    /**
+     * Renderiza os cartões clicáveis das 3 UBS piloto.
+     */
+    function renderUbsOptions() {
+      const container = document.getElementById('ubs-list');
+      container.innerHTML = '';
+
+      UBS_OPTIONS.forEach((ubs) => {
+        const selected = appState.selectedUbsId === ubs.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', String(selected));
+        btn.onclick = () => {
+          appState.selectedUbsId = ubs.id;
+          hideError('error-screen-2');
+          renderUbsOptions();
+        };
+
+        btn.className = selected
+          ? 'hc-selectable is-selected w-full min-h-[64px] p-4 rounded-xl border-2 border-teal-700 bg-teal-50 text-left flex items-center justify-between gap-3 transition shadow-sm'
+          : 'hc-selectable w-full min-h-[64px] p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-teal-400 text-left flex items-center justify-between gap-3 transition';
+
+        btn.innerHTML = `
+          <div>
+            <span class="block font-extrabold text-base text-slate-900">${ubs.name}</span>
+            <span class="block text-xs text-slate-600 hc-text-muted mt-0.5">${ubs.address}</span>
+            <span class="inline-block mt-1.5 text-xs font-bold text-teal-800 hc-accent-text">${ubs.spots}</span>
+          </div>
+          <div class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 ${selected ? 'border-teal-700 bg-teal-700 text-white' : 'border-slate-300 bg-white'}">
+            ${selected ? '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>' : ''}
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    /**
+     * Renderiza os cartões clicáveis das especialidades.
+     */
+    function renderSpecialtyOptions() {
+      const container = document.getElementById('specialty-list');
+      container.innerHTML = '';
+
+      SPECIALTY_OPTIONS.forEach((spec) => {
+        const selected = appState.selectedSpecialtyId === spec.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', String(selected));
+        btn.onclick = () => {
+          appState.selectedSpecialtyId = spec.id;
+          hideError('error-screen-2');
+          renderSpecialtyOptions();
+        };
+
+        btn.className = selected
+          ? 'hc-selectable is-selected w-full min-h-[58px] p-4 rounded-xl border-2 border-teal-700 bg-teal-50 text-left flex items-center justify-between gap-3 transition shadow-sm'
+          : 'hc-selectable w-full min-h-[58px] p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-teal-400 text-left flex items-center justify-between gap-3 transition';
+
+        const badgeClass = spec.urgent
+          ? 'hc-badge inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-xs font-extrabold'
+          : 'inline-block mt-1 text-xs font-semibold text-emerald-800 hc-text-muted';
+
+        btn.innerHTML = `
+          <div>
+            <span class="block font-extrabold text-base text-slate-900">${spec.name}</span>
+            <span class="${badgeClass}">${spec.badge}</span>
+          </div>
+          <div class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 ${selected ? 'border-teal-700 bg-teal-700 text-white' : 'border-slate-300 bg-white'}">
+            ${selected ? '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>' : ''}
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    /**
+     * Valida e avança da Tela 2 para a Tela 3.
+     */
+    function submitScreen2() {
+      if (!appState.selectedUbsId) {
+        showError('error-screen-2', 'Por favor, escolha um Posto de Saúde (UBS).');
+        return;
+      }
+      if (!appState.selectedSpecialtyId) {
+        showError('error-screen-2', 'Por favor, escolha a especialidade desejada.');
+        return;
+      }
+      hideError('error-screen-2');
+      goToScreen('3');
+    }
+
+    /**
+     * Renderiza os cartões de horários disponíveis na Tela 3.
+     */
+    function renderSlotOptions() {
+      const container = document.getElementById('slots-list');
+      container.innerHTML = '';
+
+      SLOT_OPTIONS.forEach((slot) => {
+        const selected = appState.selectedSlotId === slot.id;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', String(selected));
+        btn.onclick = () => {
+          appState.selectedSlotId = slot.id;
+          hideError('error-screen-3');
+          renderSlotOptions();
+        };
+
+        const baseBorder = slot.isLastSlot
+          ? (selected ? 'border-amber-600 bg-amber-50' : 'border-amber-300 bg-amber-50/40 hover:border-amber-500')
+          : (selected ? 'border-teal-700 bg-teal-50' : 'border-slate-200 bg-white hover:border-teal-400');
+
+        btn.className = `hc-selectable ${selected ? 'is-selected' : ''} w-full min-h-[68px] p-4 rounded-xl border-2 ${baseBorder} text-left flex items-center justify-between gap-3 transition shadow-sm`;
+
+        btn.innerHTML = `
+          <div>
+            ${slot.isLastSlot ? '<span class="hc-badge inline-block mb-1.5 px-2.5 py-0.5 rounded-md bg-orange-600 text-white text-xs font-extrabold tracking-wide">ÚLTIMA VAGA</span>' : ''}
+            <span class="block font-extrabold text-base text-slate-900">${slot.day}, ${slot.time}</span>
+            <span class="block text-sm text-slate-700 hc-text-muted mt-0.5">${slot.doctor}</span>
+          </div>
+          <div class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 ${selected ? 'border-teal-700 bg-teal-700 text-white' : 'border-slate-300 bg-white'}">
+            ${selected ? '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>' : ''}
+          </div>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    /**
+     * Avança da Tela 3: se escolher a Última Vaga (08:30), aciona a Tela de Exceção;
+     * nos demais horários, segue para a Tela 4 (Confirmar).
+     */
+    function submitScreen3() {
+      if (!appState.selectedSlotId) {
+        showError('error-screen-3', 'Por favor, toque em um dos horários disponíveis.');
+        return;
+      }
+      hideError('error-screen-3');
+
+      const chosen = SLOT_OPTIONS.find((s) => s.id === appState.selectedSlotId);
+      if (chosen && chosen.isLastSlot) {
+        // Simula concorrência atômica (HTTP 409 Conflict) levando à Tela de Exceção
+        goToScreen('exception');
+      } else {
+        goToScreen('4');
+      }
+    }
+
+    /**
+     * Seleciona um horário alternativo direto da Tela de Exceção e avança para Confirmação.
+     */
+    function selectAlternativeSlot(slotId) {
+      appState.selectedSlotId = slotId;
+      renderSlotOptions();
+      goToScreen('4');
+    }
+
+    /**
+     * Registra o paciente na fila de espera a partir da Tela de Exceção.
+     */
+    function enterWaitlist() {
+      const spec = getSelectedSpecialty();
+      document.getElementById('waitlist-spec-text').textContent = spec.name;
+      document.getElementById('waitlist-phone-text').textContent = appState.phone || '(71) 99842-6150';
+      document.getElementById('waitlist-confirmation').classList.remove('hidden');
+      document.getElementById('waitlist-action-box').classList.add('hidden');
+    }
+
+    /**
+     * Atualiza preferências de lembrete (SMS / WhatsApp).
+     */
+    function updateReminderPreference() {
+      appState.reminders.sms = document.getElementById('chk-sms').checked;
+      appState.reminders.whatsapp = document.getElementById('chk-whatsapp').checked;
+    }
+
+    /**
+     * Confirma o agendamento e vai para o Comprovante (Tela 5).
+     */
+    function confirmAppointment() {
+      updateReminderPreference();
+      appState.appointmentCancelled = false;
+      appState.cancelProcessing = false;
+      // Gera protocolo consistente
+      appState.protocol = '#CF-2026-8492';
+      goToScreen('5');
+    }
+
+    /**
+     * Abre o modal de cancelamento (com proteção caso já esteja cancelada).
+     */
+    function openCancelModal() {
+      if (appState.appointmentCancelled) {
+        // Comportamento idempotente: não reabre erro nem duplica liberação
+        document.getElementById('idempotent-notice').classList.remove('hidden');
+        return;
+      }
+      document.getElementById('cancel-modal').classList.remove('hidden');
+      document.getElementById('btn-confirm-cancel').focus();
+    }
+
+    function closeCancelModal() {
+      document.getElementById('cancel-modal').classList.add('hidden');
+    }
+
+    /**
+     * Executa o cancelamento idempotente, impedindo cliques duplos ou liberações duplicadas.
+     */
+    function executeCancelAppointment() {
+      if (appState.cancelProcessing) return;
+      appState.cancelProcessing = true;
+
+      if (appState.appointmentCancelled) {
+        closeCancelModal();
+        document.getElementById('idempotent-notice').classList.remove('hidden');
+        appState.cancelProcessing = false;
+        return;
+      }
+
+      appState.appointmentCancelled = true;
+      closeCancelModal();
+      updateReceiptStatusUI();
+      appState.cancelProcessing = false;
+    }
+
+    /**
+     * Atualiza a exibição do Comprovante entre estado Ativo e Cancelado.
+     */
+    function updateReceiptStatusUI() {
+      const activeEl = document.getElementById('receipt-status-active');
+      const cancelledEl = document.getElementById('receipt-status-cancelled');
+      const resilienceBox = document.getElementById('receipt-resilience-box');
+      const cancelBtn = document.getElementById('btn-cancel-appointment');
+      const printBtn = document.getElementById('btn-print-receipt');
+
+      if (appState.appointmentCancelled) {
+        activeEl.classList.add('hidden');
+        resilienceBox.classList.add('hidden');
+        cancelledEl.classList.remove('hidden');
+        printBtn.classList.add('hidden');
+        cancelBtn.textContent = 'Consulta já cancelada (vaga liberada)';
+        cancelBtn.classList.add('opacity-80');
+        document.getElementById('title-screen-5-cancelled').focus();
+      } else {
+        activeEl.classList.remove('hidden');
+        resilienceBox.classList.remove('hidden');
+        cancelledEl.classList.add('hidden');
+        document.getElementById('idempotent-notice').classList.add('hidden');
+        printBtn.classList.remove('hidden');
+        cancelBtn.textContent = 'Cancelar Consulta';
+        cancelBtn.classList.remove('opacity-80');
+      }
+    }
+
+    /**
+     * Aciona impressão limpa do comprovante.
+     */
+    function printReceipt() {
+      try {
+        window.print();
+      } catch (err) {
+        console.error('Erro ao acionar impressão:', err);
+      }
+    }
+
+    /**
+     * Reinicia o fluxo para fazer um novo agendamento preservando acessibilidade.
+     */
+    function startNewAppointment() {
+      appState.selectedUbsId = null;
+      appState.selectedSpecialtyId = null;
+      appState.selectedSlotId = null;
+      appState.appointmentCancelled = false;
+      appState.cancelProcessing = false;
+      renderUbsOptions();
+      renderSpecialtyOptions();
+      renderSlotOptions();
+      goToScreen('1');
+    }
+
+    /**
+     * Atalho da barra de apresentação: preenche dados de exemplo automaticamente e salta para a tela.
+     */
+    function jumpToScreen(screenId) {
+      if (screenId !== '1') {
+        ensureSampleDataForJump(screenId);
+      }
+      if (screenId === '5') {
+        appState.appointmentCancelled = false;
+      }
+      goToScreen(screenId);
+    }
+
+    /**
+     * Controlador central de navegação entre telas.
+     */
+    function goToScreen(screenId) {
+      try {
+        const allScreens = ['1', '2', '3', 'exception', '4', '5'];
+        allScreens.forEach((id) => {
+          const el = document.getElementById('screen-' + id);
+          if (el) el.classList.add('hidden');
+        });
+
+        // Reseta caixa de fila de espera ao entrar na tela de exceção
+        if (screenId === 'exception') {
+          document.getElementById('waitlist-confirmation').classList.add('hidden');
+          document.getElementById('waitlist-action-box').classList.remove('hidden');
+        }
+
+        populateScreenSummaries(screenId);
+
+        const targetEl = document.getElementById('screen-' + screenId);
+        if (targetEl) {
+          targetEl.classList.remove('hidden');
+        }
+
+        appState.currentScreen = screenId;
+        updateProgressUI(screenId);
+        updateDemoBarHighlight();
+
+        // Rola suavemente para o topo e move foco para o título da etapa (acessibilidade)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const heading = document.getElementById('title-screen-' + screenId);
+        if (heading) {
+          setTimeout(() => heading.focus({ preventScroll: true }), 80);
+        }
+      } catch (err) {
+        console.error('Erro ao navegar para tela:', err);
+      }
+    }
+
+    /**
+     * Preenche dinamicamente os textos de resumo em cada tela antes de exibi-la.
+     */
+    function populateScreenSummaries(screenId) {
+      const ubs = getSelectedUbs();
+      const spec = getSelectedSpecialty();
+      const slot = getSelectedSlot();
+
+      if (screenId === '3') {
+        document.getElementById('screen3-ubs-summary').textContent = `${ubs.name} — ${ubs.address}`;
+        document.getElementById('screen3-spec-summary').textContent = spec.name;
+      }
+
+      if (screenId === 'exception') {
+        document.getElementById('exception-kept-summary').textContent = `${ubs.name} • ${spec.name}`;
+      }
+
+      if (screenId === '4') {
+        document.getElementById('confirm-patient').textContent = appState.patientName;
+        document.getElementById('confirm-doc').textContent = appState.documentNumber;
+        document.getElementById('confirm-ubs').textContent = `${ubs.name} (${ubs.address})`;
+        document.getElementById('confirm-spec-doc').textContent = `${spec.name} — ${slot.doctor}`;
+        document.getElementById('confirm-datetime').textContent = `${slot.day}, às ${slot.time}`;
+
+        const agentBadge = document.getElementById('confirm-agent-badge');
+        if (appState.role === 'agente' && appState.agentName) {
+          agentBadge.classList.remove('hidden');
+          document.getElementById('confirm-agent-name').textContent = appState.agentName;
+        } else {
+          agentBadge.classList.add('hidden');
+        }
+      }
+
+      if (screenId === '5') {
+        document.getElementById('receipt-protocol').textContent = appState.protocol;
+        document.getElementById('cancelled-protocol').textContent = appState.protocol;
+        document.getElementById('receipt-patient').textContent = appState.patientName;
+        document.getElementById('receipt-doc').textContent = appState.documentNumber;
+        document.getElementById('receipt-ubs').textContent = ubs.name;
+        document.getElementById('receipt-spec').textContent = spec.name;
+        document.getElementById('receipt-doctor').textContent = slot.doctor;
+        document.getElementById('receipt-datetime').textContent = `${slot.day}, às ${slot.time}`;
+
+        const agentRow = document.getElementById('receipt-agent-row');
+        if (appState.role === 'agente' && appState.agentName) {
+          agentRow.classList.remove('hidden');
+          document.getElementById('receipt-agent').textContent = appState.agentName;
+        } else {
+          agentRow.classList.add('hidden');
+        }
+
+        const channels = [];
+        if (appState.reminders.sms) channels.push('SMS');
+        if (appState.reminders.whatsapp) channels.push('WhatsApp');
+        document.getElementById('receipt-reminders').textContent =
+          channels.length > 0 ? `${channels.join(' e ')} (${appState.phone})` : 'Sem lembrete';
+
+        updateReceiptStatusUI();
+      }
+    }
+
+    /**
+     * Atualiza barra e rótulos de progresso no topo do cartão.
+     */
+    function updateProgressUI(screenId) {
+      const info = PROGRESS_MAP[screenId] || PROGRESS_MAP['1'];
+      document.getElementById('progress-label').textContent = info.label;
+      document.getElementById('progress-step-name').textContent = info.name;
+      document.getElementById('progress-fill').style.width = info.pct + '%';
+      document.getElementById('progress-bar-wrap').setAttribute('aria-valuenow', String(info.step));
+    }
+
+    /**
+     * Destaca o botão ativo na barra de atalhos do rodapé.
+     */
+    function updateDemoBarHighlight() {
+      document.querySelectorAll('.demo-nav-btn').forEach((btn) => {
+        const isCurrent = btn.getAttribute('data-demo-screen') === appState.currentScreen;
+        btn.classList.toggle('ring-2', isCurrent);
+        btn.classList.toggle('ring-teal-300', isCurrent);
+        btn.classList.toggle('bg-teal-600', isCurrent && btn.getAttribute('data-demo-screen') !== 'exception');
+        btn.classList.toggle('hc-demo-btn-active', isCurrent);
+      });
+    }
+
+    // Helpers de seleção e mensagens de erro
+    function getSelectedUbs() {
+      return UBS_OPTIONS.find((u) => u.id === appState.selectedUbsId) || UBS_OPTIONS[0];
+    }
+
+    function getSelectedSpecialty() {
+      return SPECIALTY_OPTIONS.find((s) => s.id === appState.selectedSpecialtyId) || SPECIALTY_OPTIONS[0];
+    }
+
+    function getSelectedSlot() {
+      return SLOT_OPTIONS.find((s) => s.id === appState.selectedSlotId) || SLOT_OPTIONS[1];
+    }
+
+    function showError(elementId, message) {
+      const el = document.getElementById(elementId);
+      if (el) {
+        el.textContent = message;
+        el.classList.remove('hidden');
+      }
+    }
+
+    function hideError(elementId) {
+      const el = document.getElementById(elementId);
+      if (el) el.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

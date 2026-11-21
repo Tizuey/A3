@@ -41,10 +41,10 @@ Após um piloto terceirizado falhar no primeiro dia real de operação (abertura
 ## 🏗️ 3. Arquitetura e Decisões Técnicas Principais
 
 ```mermaid
-%%{init: {'flowchart': {'nodeSpacing': 55, 'rankSpacing': 75}}}%%
-flowchart TB
+%%{init: {'flowchart': {'nodeSpacing': 35, 'rankSpacing': 85}}}%%
+flowchart LR
     subgraph USUARIOS ["Usuários Finais"]
-        direction LR
+        direction TB
         C["<b>Cidadão</b><br/>Paciente de Vale Verde<br/><i>Acesso Web / Mobile</i>"]
         A["<b>Agente de Saúde / Recepcionista</b><br/>Profissional da UBS<br/><i>Agendamento assistido e conferência</i>"]
     end
@@ -56,7 +56,7 @@ flowchart TB
     CF["<b>Sistema Consulta Fácil</b><br/>Monólito Modular — Prefeitura de Vale Verde<br/><i>Agendamento, remarcação, cancelamento e fila de espera</i>"]
 
     subgraph EXTERNOS ["Serviços e Sistemas Externos"]
-        direction LR
+        direction TB
         AUTH["<b>Serviço de Autenticação</b><br/>Validação de CPF / Cartão SUS<br/><i>e confirmação por celular (OTP)</i>"]
         SIGA["<b>SIGA-Saúde (Legado)</b><br/>Desktop PHP 2012<br/><i>Banco único, sem API</i>"]
         SMS["<b>Provedor de SMS / WhatsApp</b><br/>Disparo de lembretes<br/><i>Dados mínimos (LGPD)</i>"]
